@@ -1,346 +1,216 @@
-# OmniRisk — Climate Risk Scoring for MSME Lending
-### Decision Support & Environmental Resilience Platform for Banks
+# OmniRisk
 
-[![Vite](https://img.shields.io/badge/Vite-8.3-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
-[![React](https://img.shields.io/badge/React-19.2-61DAFB?logo=react&logoColor=black)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-6.0-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-[![Supabase](https://img.shields.io/badge/Supabase-Postgres_15-3ECF8E?logo=supabase&logoColor=white)](https://supabase.com/)
+**Climate risk scoring for MSME and farm lending: decision support for banks.**
 
-> **Smart India Hackathon 2026** | **Problem Statement:** FIN-05  
-> **Team:** HyperNode  
+OmniRisk gives bank officers a live, explainable **Climate Risk Score (0–100)** for each borrower, so they can see how floods, storms, drought and heat may affect a business **before** a loan is given, and keep watching that risk afterwards.
+
+> **OmniRisk is advisory only.** It never approves or rejects a loan. The bank makes every lending decision.
+
+Built by team **HyperNode** for **Fusion 2026**, Problem Statement **FIN-05: Real-Time Climate Risk Scoring for MSMEs** (International Finance Corporation).
 
 ---
 
-## 1. Problem & Solution
+## Table of contents
 
-### The Problem
-Traditional MSME and agricultural credit underwriting evaluates past financial health (balance sheets, ITRs, repayment scores) while remaining blind to escalating acute climate risks (floods, unseasonal precipitation, prolonged drought, extreme heatwaves). When an unseasonal flood strikes an agro-processing cluster or a drought destroys rainfed crops, otherwise creditworthy borrowers face acute insolvency, driving non-performing assets (NPAs) across rural and semi-urban bank portfolios.
-
-### The Solution
-**OmniRisk** is a climate-risk assessment and decision-support engine engineered specifically for bank credit officers. By fusing historical climate hazard benchmarks (World Bank CCKP), live 7-day meteorological forecasts (Open-Meteo), and micro-level enterprise vulnerability factors (irrigation, soil resilience, grid reliability, supply chains), OmniRisk calculates an objective, transparent **0–100 Climate Resilience Score**. 
-
-This empowers lenders to identify climate vulnerability before loan sanctioning, structure protective terms (parametric insurance, adaptive repayment schedules), and monitor portfolio-level climate hazards in real time.
-
----
-
-## 2. Important Note: Advisory Mandate
-
-> [!IMPORTANT]
-> **OmniRisk is strictly an Advisory and Decision-Support Tool.**  
-> It **never** approves, denies, or auto-rejects loans. The financing institution maintains 100% final lending authority. The platform contains zero automated underwriting denial logic; its sole purpose is to provide environmental intelligence and recommend protective resilience buffers.
-
----
-
-## 3. Key Features
-
-### Implemented & Verified Features (In Active Codebase)
-- [x] **Bank-Only Authenticated Portal:** Role-based authentication (`bank_officer`) backed by Supabase Auth and Row-Level Security (RLS) ensuring strict multi-tenant bank isolation.
-- [x] **Pre-Loan Location & Area Risk Check:** Standalone screening page (`/pre-loan-check`) enabling credit officers to evaluate prospective sites before onboarding. Supports forward geocoding (OpenStreetMap Photon), bidirectional map pin placement, dual-mode scoring ("Area-Only" baseline vs. "Area + Business" comprehensive), 200km regional hazard exposure intelligence, and audit logging to `risk_checks`.
-- [x] **Customer Management (Full CRUD):** Complete customer directory with pagination, sector/district filters, and active vs. archived segmentation. Unified Add/Edit modal with real-time score preview, proximity duplicate detection (Haversine formula within 500m), soft-delete archiving with explicit confirmation, and automated score recalculation triggers with historical tracking in `score_history`.
-- [x] **Transparent Climate Risk Scoring (0–100):** Objective 5-pillar mathematical engine delivering granular subscores, dynamic plain-English risk drivers ("Top 3 Primary Risk Drivers"), protective factors, and decoupled parametric insurance recommendations.
-- [x] **Live Acute Weather Alerts:** Automatic hazard warning triggers comparing 7-day Open-Meteo precipitation and temperature forecasts against local district hazard baselines. Includes an alert center modal and a top critical hazard banner.
-- [x] **Interactive GIS Risk Map & Portfolio View:** Leaflet map with custom animated risk-tiered pins, district-wise exposure aggregations, and sector vulnerability breakdowns.
-- [x] **Borrower Self-Awareness View:** Public, token-secured portal (`/borrower/:token`) allowing borrowers to inspect their environmental resilience score gauge, understand risk drivers, and explore mitigation schemes without bank login credentials.
-- [x] **Twin Borrower Paradox Demo:** Interactive comparative view (`/demo-twin`) demonstrating score divergence between two synthetic enterprises with identical financials (₹5L loan, ₹65k revenue, 740 credit score) operating in contrasting climate zones (flood-prone Kolhapur vs. drought-prone Pune).
-
-### Planned Extensions
-- [ ] Automated PDF summary report generation for credit committee dossiers.
-- [ ] Custom GIS GeoJSON boundary shapefile imports for micro-watershed mapping.
+1. [The problem](#the-problem)
+2. [The solution](#the-solution)
+3. [Features](#features)
+4. [How the score works](#how-the-score-works)
+5. [Tech stack](#tech-stack)
+6. [Architecture](#architecture)
+7. [Project structure](#project-structure)
+8. [Getting started](#getting-started)
+9. [Environment variables](#environment-variables)
+10. [Supabase setup](#supabase-setup)
+11. [Demo guide](#demo-guide)
+12. [Data sources](#data-sources)
+13. [Security and privacy](#security-and-privacy)
+14. [Limitations](#limitations)
+15. [Team](#team)
 
 ---
 
-## 4. Score Bands & Mathematical Model
+## The problem
 
-OmniRisk scores represent **Climate Resilience on a 0–100 scale** (where **higher score = lower climate risk / higher resilience**):
+Two small businesses can have the same income, loan size and repayment history, yet face very different climate risk. Floods can damage assets, heat and drought can cut output, and disrupted roads, power or water can delay recovery. Traditional credit files show finances, not climate exposure, and they are static snapshots that miss fast-changing weather risk.
 
-| Score Band | Advisory Label | Institutional Guidance |
-| :---: | :---: | :--- |
-| **75 – 100** | **Low climate risk** | Robust environmental resilience; standard monitoring recommended. |
-| **40 – 74** | **Moderate risk** | Moderate vulnerability; recommend insurance and seasonal monitoring. |
-| **10 – 39** | **High risk** | High exposure; detailed review required; crop/asset insurance strongly recommended. |
-| **0 – 9** | **Very high risk** | Critical vulnerability; flag for senior credit committee manual review. |
+## The solution
 
-### Evidence Groups & Exact Weights (From `src/engine/factorWeights.ts`)
+OmniRisk combines four kinds of evidence into one score and explains the reasons behind it:
 
-$$\text{Final Score} = (0.30 \times H) + (0.25 \times V) + (0.25 \times F) + (0.20 \times B) \pm S$$
+- **Location hazard:** flood, storm, drought and heat exposure for the area
+- **Business vulnerability:** business or crop type, soil, irrigation, power and water reliability, market access
+- **Forecast risk:** the next 7 days of rainfall, temperature and extreme-weather signals
+- **Financial resilience:** income, loan size, repayment history, insurance status
 
-1. **Regional Climate Hazard Exposure ($H$ — 30% weight):**  
-   World Bank historical benchmarks for flood, drought, heat stress, and cyclone storm indices. Evaluated using the **Actuarial Peak-Peril Principle** ($65\%$ dominant acute hazard $+ 35\%$ secondary hazards average).
-2. **Business & Farm Physical Vulnerability ($V$ — 25% weight):**  
-   Micro-level operational resilience: soil retention capacity (e.g., Alluvial vs. Black/Clay), water security (e.g., Borewell + Drip vs. Rainfed), utility grid reliability, and supply chain proximity (e.g., direct APMC mandi vs. vulnerable logistics).
-3. **Live 7-Day Weather Forecast ($F$ — 25% weight):**  
-   Live meteorological data from Open-Meteo: forecast acute rainfall volume vs. local drainage thresholds, extreme heatwave degree deviations ($>40^\circ\text{C}$), and high wind gust exposure.
-4. **Financial Resilience Buffer ($B$ — 20% weight):**  
-   Enterprise debt service coverage ratio (monthly net revenue vs. loan EMI), historical repayment track record (scaled from 300–900), and active insurance buffers ($+20\text{ pts}$ cushion for active crop/property insurance).
-5. **Bonus Modifier ($S$ — $\pm 5$ points):**  
-   Remote-sensing vegetation health and moisture index proxy (NDVI/NDWI vegetative buffer).
+Officers see the score, the top drivers, a risk map and forecast-based alerts. Borrowers get a simple awareness view of their own risk.
 
----
+## Features
 
-## 5. Technology Stack & Architecture
+Build status for each feature is tracked in [`PLAN.md`](./PLAN.md).
 
-### Core Technologies
-- **Frontend Framework:** React 19 with Vite 8 (TypeScript)
-- **Styling & Design System:** Tailwind CSS v3 with custom tokens (`primary: #00152a`, `secondary: #006a61`, `surface: #f7f9fc`, `error: #ba1a1a`) defined in `assets/DESIGN.md`
-- **GIS & Mapping:** Leaflet & React-Leaflet with OpenStreetMap tiles (zero external API keys)
-- **Icons & Visuals:** Google Material Symbols Outlined & Lucide Icons
-- **Data Visualizations:** Recharts (7-day live weather forecasts, portfolio sector charts)
-- **Database & Authentication:** Supabase (PostgreSQL 15+ with Row-Level Security, Supabase Auth)
-- **Live Meteorological Feed:** Open-Meteo REST API (free, keyless high-resolution weather)
-- **Geocoding & Location Search:** OpenStreetMap Photon API (CORS-enabled client autocomplete) & BigDataCloud client reverse geocoding
+- **Bank-only login:** a dedicated login page backed by Supabase Auth, with protected dashboard routes
+- **Customer management:** add, edit and delete (archive) customers, with search and filters
+- **Pre-loan location and area risk check:** check a prospective customer's location and surrounding area *before* lending, even if they are not yet saved as a customer
+- **Climate Risk Score (0–100):** transparent weighted formula with a breakdown across the four evidence groups
+- **Explained drivers:** plain-language reasons beside every score, for example "high flood exposure; good irrigation access"
+- **Live forecast alerts:** 7-day weather signals flag emerging risk for the bank's portfolio
+- **Risk map and portfolio view:** borrowers colored by risk level, with district summaries
+- **Borrower awareness view:** a simple score explanation with insurance and preparedness suggestions
 
-### System Architecture Diagram
+## How the score works
+
+Lower score = greater climate-related risk.
+
+| Score | Band | Suggested advisory action |
+|---|---|---|
+| 75–100 | Low | Routine monitoring |
+| 40–74 | Moderate | Insurance review, closer monitoring |
+| 10–39 | High | Detailed review suggested |
+| 0–9 | Very high | Careful manual review |
+
+Initial prototype weights (check the scoring module in the code for the values in use):
+
+| Evidence group | Weight |
+|---|---|
+| Location hazard | 30% |
+| Business vulnerability | 25% |
+| Forecast risk | 25% |
+| Financial resilience | 20% |
+
+The bands and weights are advisory labels for the prototype. They are **not** validated probabilities of default and should be calibrated on real loan-performance data before any production use.
+
+When some inputs are missing (for example in a quick pre-loan area check), the result is labelled **Area-only** instead of **Area + business**, and the unavailable evidence groups are shown as unavailable rather than assumed.
+
+## Tech stack
+
+| Layer | Technology |
+|---|---|
+| Database and authentication | Supabase (Postgres, Auth, row-level security) |
+| Frontend | `<!-- TODO: fill in framework chosen in the project -->`; static assets live in the `assets/` folder |
+| Scoring and alerts | `<!-- TODO: fill in language/runtime chosen in the project -->` |
+| Maps | `<!-- TODO: e.g. Leaflet, if used -->` |
+| Weather and climate data | Open-Meteo, World Bank Climate Change Knowledge Portal, World Bank Global Flood Exposure |
+
+## Architecture
 
 ```mermaid
-graph TD
-    subgraph Client ["Frontend Client (React 19 + Vite)"]
-        UI["Bank Officer Portal / Dashboard"]
-        PRE["Pre-Loan Location Check"]
-        MAP["Leaflet GIS Map & Pin Sync"]
-        PORTAL["Borrower Public View (Token)"]
-    end
-
-    subgraph Engine ["Scoring & Advisory Engine"]
-        SCORE["5-Pillar Scoring Algorithm"]
-        EXPLAIN["Explanation & Risk Driver Generator"]
-        ALERT["Early Warning Alert Evaluator"]
-    end
-
-    subgraph External ["External Data Feeds (Keyless)"]
-        METEO["Open-Meteo REST API (7-Day Live Weather)"]
-        OSM["Photon OSM / Nominatim (Geocoding)"]
-        WB["World Bank CCKP / Flood Exposure"]
-    end
-
-    subgraph Backend ["Database & Auth (Supabase)"]
-        AUTH["Supabase Auth (Officer Session)"]
-        RLS["PostgreSQL with Row-Level Security"]
-        TABLES[("Tables: profiles, borrowers, regional_hazards, climate_scores, risk_checks, score_history")]
-    end
-
-    UI --> AUTH
-    AUTH --> RLS
-    RLS --> TABLES
-    PRE --> OSM
-    PRE --> METEO
-    PRE --> SCORE
-    SCORE --> EXPLAIN
-    SCORE --> ALERT
-    SCORE --> TABLES
-    MAP --> OSM
+flowchart LR
+    A[Bank officer / Borrower UI] --> B[Supabase Auth + Postgres]
+    A --> C[Scoring and alert layer]
+    C --> B
+    C --> D[Open-Meteo forecast]
+    C --> E[World Bank climate and flood data]
+    C --> A
 ```
 
----
+1. The officer signs in through the bank-only login.
+2. The UI reads and writes customers, scores, alerts and check history in Supabase.
+3. The scoring layer maps a location to hazard data, adds the 7-day forecast, builds the score and its explanations, and returns them to the UI.
+4. The alert rules flag borrowers when forecast and exposure signals combine (for example, heavy rain forecast in a high flood-exposure area).
 
-## 6. Project Structure
+## Project structure
+
+`<!-- TODO: replace with the real folder tree once finalized -->`
 
 ```
-Fusion 2026/
-├── assets/                       # Visual design specifications and mockups
-│   ├── DESIGN.md                 # Design token definitions, color palette, and typography
-│   ├── code.html                 # Original mobile & web UI prototype specification
-│   └── screen.png                # Reference dashboard screenshot
-├── assests/                      # Aliased asset reference directory
-├── public/                       # Static public web assets
-├── scripts/                      # Automated verification and database utilities
-│   ├── envHelper.mjs             # Environment variable loader for Node scripts
-│   ├── createTestOfficer.mjs     # Script to provision synthetic bank officer
-│   ├── generateSyntheticData.mjs # 26-borrower deterministic synthetic profile generator
-│   ├── seedSupabase.mjs          # Seeds hazard benchmarks and synthetic borrowers
-│   ├── testScoringEngine.mjs     # Unit test suite for scoring formula
-│   ├── verifyEndToEnd.mjs        # End-to-end integration test runner
-│   ├── verifyLocationSearch.mjs  # Automated verification for geocoding & map synchronization
-│   └── verifyNewFeatures.mjs     # Phase G verification (CRUD, duplicate check, dual-mode)
-├── src/
-│   ├── api/                      # External API connectors and data services
-│   │   ├── areaHazardService.ts  # Surrounding regional hazard intelligence (200km radius)
-│   │   ├── customerService.ts    # Customer CRUD, duplication check, and soft-delete archive
-│   │   ├── locationResolver.ts   # OpenStreetMap Photon geocoder & reverse geocoding
-│   │   ├── openMeteo.ts          # Open-Meteo 7-day weather forecast client
-│   │   ├── riskCheckService.ts   # Pre-loan check persistence and customer linking
-│   │   ├── supabaseClient.ts     # Supabase client singleton with auth state helpers
-│   │   └── worldBankHazards.ts   # Regional hazard benchmark service
-│   ├── components/               # Modular UI component tree
-│   │   ├── bank/                 # Bank officer dashboard components (BorrowerTable, CustomerFormModal, etc.)
-│   │   ├── borrower/             # Public borrower view components (ScoreGauge, InsuranceAdvice, etc.)
-│   │   └── common/               # Shared components (BankHeader, WeatherForecastWidget, etc.)
-│   ├── data/                     # Seed benchmarks (worldBankHazards.json)
-│   ├── engine/                   # Core climate scoring logic
-│   │   ├── alertRules.ts         # Weather hazard threshold alert rules
-│   │   ├── explanationGenerator.ts # Generates transparent human-readable explanations
-│   │   ├── factorWeights.ts      # Configurable weighting matrix (30/25/25/20)
-│   │   └── scoringEngine.ts      # Dual-mode and standard climate resilience calculation
-│   ├── pages/                    # Routed application views
-│   │   ├── BankDashboardPage.tsx # Officer command center with directory and risk map
-│   │   ├── BankLoginPage.tsx     # Dedicated bank officer authentication page
-│   │   ├── BorrowerAwarenessPage.tsx # Token-accessed public borrower awareness portal
-│   │   ├── DemoTwinPage.tsx      # Side-by-side Twin Borrower Paradox demo
-│   │   └── PreLoanRiskCheckPage.tsx # Pre-loan location screening and dual-mode check
-│   ├── types/                    # TypeScript interfaces for database, weather, and scoring
-│   ├── utils/                    # Formatting helpers and risk tier color resolvers
-│   ├── App.tsx                   # Main application router with ProtectedRoute guards
-│   ├── main.tsx                  # Application entry point
-│   └── index.css                 # Global Tailwind stylesheet and Material Symbols imports
-├── supabase/                     # PostgreSQL database definitions
-│   ├── migrations/               # Schema migrations (customer archive, risk_checks)
-│   ├── schema.sql                # Complete Supabase schema with RLS policies
-│   └── seed.sql                  # Seed data for regional hazards and synthetic borrowers
-├── .env.example                  # Sanitized environment variable template
-├── .gitignore                    # Comprehensive git exclusion rules
-├── package.json                  # Dependencies and build scripts
-├── tsconfig.json                 # TypeScript compiler configuration
-└── vite.config.ts                # Vite configuration with proxy and path aliases
+.
+├── assets/        # Images, icons and other frontend assets
+├── PLAN.md        # Build plan and progress checklist
+├── README.md
+├── .env.example   # Variable names only, no secrets
+└── .gitignore
 ```
 
----
-
-## 7. Prerequisites & Installation
+## Getting started
 
 ### Prerequisites
-- **Node.js:** v18.0.0 or higher (v20+ recommended)
-- **Package Manager:** npm (bundled with Node.js)
-- **Supabase Account:** Free project on [supabase.com](https://supabase.com)
 
-### Installation Steps
+- A Supabase project (free tier is enough)
+- `<!-- TODO: runtime/version, e.g. Node or Python version -->`
+- Git
 
-1. **Clone the repository:**
-   ```bash
-   git clone <repository-url>
-   cd "Fusion 2026"
-   ```
+### Install and run
 
-2. **Install project dependencies:**
-   ```bash
-   npm install
-   ```
+```bash
+# 1. Clone the repository
+git clone <your-repository-url>
+cd omnirisk
 
-3. **Configure Environment Variables:**
-   Copy the example template to create your local environment file:
-   ```bash
-   cp .env.example .env.local
-   ```
-   Open `.env.local` and enter your Supabase project credentials (see [Environment Variables](#8-environment-variables)).
+# 2. Create your local environment file
+cp .env.example .env
+# then open .env and fill in your own values (never commit this file)
 
-4. **Start the local development server:**
-   ```bash
-   npm run dev
-   ```
-   The application will be live at `http://localhost:5173/`. To expose the dev server across your local Wi-Fi network, run `npm run host`.
+# 3. Install dependencies
+# TODO: add the install command used by this project
 
-5. **Run Verification & Test Suites:**
-   ```bash
-   # Run location search and geocoding test suite
-   node scripts/verifyLocationSearch.mjs
+# 4. Run the app
+# TODO: add the start command used by this project
+```
 
-   # Run customer management and dual-mode scoring tests
-   node scripts/verifyNewFeatures.mjs
+## Environment variables
 
-   # Run end-to-end integration test against Supabase
-   node scripts/verifyEndToEnd.mjs
-   ```
+Copy `.env.example` to `.env` and fill in your own values. The exact variable names come from the code; the table below shows the typical set.
 
-6. **Build for Production:**
-   ```bash
-   npm run build
-   ```
+| Variable (typical name) | Purpose | Visibility |
+|---|---|---|
+| Supabase project URL | Connects the app to your Supabase project | Public |
+| Supabase anon (public) key | Client access, limited by row-level security | Public |
+| Supabase service role key | Full database access for trusted server code only | **Secret, server only** |
+| Any other API keys | Only if a data provider requires one | **Secret** |
 
----
+Open-Meteo's public forecast API does not need a key for basic use.
 
-## 8. Environment Variables
+Never commit `.env`, and never expose the service role key in frontend code.
 
-OmniRisk requires the following configuration keys:
+## Supabase setup
 
-| Variable Name | Description | Scope | Where to Obtain |
-| :--- | :--- | :---: | :--- |
-| `VITE_SUPABASE_URL` | Supabase Project REST / Auth API URL | **Public** (Frontend) | Supabase Dashboard $\rightarrow$ Project Settings $\rightarrow$ API $\rightarrow$ Project URL |
-| `VITE_SUPABASE_ANON_KEY` | Supabase Anonymous Client Public API Key | **Public** (Frontend) | Supabase Dashboard $\rightarrow$ Project Settings $\rightarrow$ API $\rightarrow$ Project API Keys (`anon` / `public`) |
-| `SUPABASE_SERVICE_ROLE_KEY` | Administrative service role key (bypasses RLS) | **Server-Only Secret** | Supabase Dashboard $\rightarrow$ Project Settings $\rightarrow$ API $\rightarrow$ Project API Keys (`service_role`) |
+1. Create a new project at [supabase.com](https://supabase.com).
+2. Copy the project URL and keys into your `.env` file.
+3. Apply the database schema and migrations from the repository (see the migrations/SQL folder referenced in `PLAN.md`).
+4. Enable **row-level security** on every table, so each bank can only see its own customers, scores, alerts and check history.
+5. In **Authentication**, create the bank officer accounts you need for testing. There is no public sign-up for borrowers or the public.
+6. Optional: load the synthetic seed data for the demo.
 
-> [!CAUTION]
-> `SUPABASE_SERVICE_ROLE_KEY` must **NEVER** be committed to source control or exposed in frontend code. It is reserved exclusively for offline database administrative scripts.
+## Demo guide
 
----
+All demo borrower profiles are **synthetic** and labelled as such in the app.
 
-## 9. Supabase Database & Security Setup
+1. Sign in on the bank login page.
+2. Open **Pre-Loan Risk Check**, enter a flood-prone location and a safer location, and compare the results (score, band, breakdown, forecast, map).
+3. Save the riskier location as a new customer.
+4. Edit the customer's irrigation or insurance status and watch the score update, with the old score kept in history.
+5. Open the dashboard to see the risk map, district summary and forecast alerts.
+6. Open the borrower view to see the plain-language explanation and suggestions.
 
-1. **Create a Supabase Project:**
-   Create a new project at [supabase.com](https://supabase.com).
-2. **Execute Schema SQL:**
-   Open the **SQL Editor** in your Supabase dashboard and run the contents of [supabase/schema.sql](file:///d:/Hackathon/Fusion%202026/supabase/schema.sql). This provisions the core tables (`profiles`, `regional_hazards`, `borrowers`, `climate_scores`, `climate_alerts`, `score_history`) and enables Row-Level Security (RLS).
-3. **Apply Phase G Migrations:**
-   Run the migration script [supabase/migrations/20261009_customer_and_risk_checks.sql](file:///d:/Hackathon/Fusion%202026/supabase/migrations/20261009_customer_and_risk_checks.sql) to add the `risk_checks` table, customer archive flags, and multi-tenant bank isolation policies.
-4. **Seed Hazard Benchmarks & Synthetic Borrowers:**
-   Run the automated seed script from your terminal:
-   ```bash
-   node scripts/createTestOfficer.mjs
-   node scripts/seedSupabase.mjs
-   ```
+Throughout, note that OmniRisk shows risk labels and suggested actions only, never "approved" or "rejected".
 
----
+## Data sources
 
-## 10. Data Sources
+- [Open-Meteo](https://open-meteo.com/): weather forecasts
+- [World Bank Climate Change Knowledge Portal](https://climateknowledgeportal.worldbank.org/): historical climate and hazard data
+- [World Bank Global Flood Exposure](https://datacatalog.worldbank.org/search/dataset/0062763/global-flood-exposure-gridded-exposure-headcounts-bycountry): gridded flood exposure
+- Borrower records in the demo are **synthetic**
 
-1. **Open-Meteo REST API:** Free, high-resolution global weather forecast service providing 7-day precipitation volume, daily maximum temperatures, and wind speed. Requires zero API keys.
-2. **World Bank Climate Change Knowledge Portal (CCKP):** Regional historical climate risk indices for Indian districts, capturing chronic drought and heat stress frequency.
-3. **World Bank Global Flood Exposure Dataset:** Baseline riverine and flash flood hazard benchmarks across target agricultural belts.
-4. **Deterministic Synthetic Borrower Dataset:** All 26 demo borrower records are synthetically generated for demonstration purposes and tagged with `is_synthetic = true`. No real customer, farmer, or banking data is contained in this repository.
+## Security and privacy
 
----
+- Environment variables, API keys, certificates and confidential data are excluded by `.gitignore`. Only `.env.example` (names, no values) is committed.
+- Access is limited to authenticated bank officers and enforced by Supabase row-level security, not only by the UI.
+- The Supabase service role key is used only in trusted server code.
+- Handle borrower data in line with India's Digital Personal Data Protection Act. Use only synthetic data for demos.
+- If a key is ever committed by mistake, rotate it immediately.
 
-## 11. Demo Guide: Step-by-Step Walkthrough
+## Limitations
 
-1. **Sign In to Bank Command Center:**
-   - Navigate to `http://localhost:5173/login`.
-   - Click the **"Quick Demo Fill (Lead Risk Officer)"** button to populate synthetic credentials:
-     - **Email:** `officer@omnirisk.com`
-     - **Password:** `BankOfficer2026!`
-   - Click **"Access Command Center"**.
-2. **Explore Portfolio Risk & GIS Map:**
-   - Review top portfolio KPIs (Average Climate Resilience, High-Risk Exposure, Acute Alerts).
-   - Filter the Customer Directory by district (e.g., *Kolhapur*, *Pune*) or sector (*Agriculture*, *Food Processing*).
-   - Click any pin on the Leaflet GIS Map to inspect enterprise micro-hazards.
-3. **Test Pre-Loan Location Risk Check:**
-   - Click **"Pre-Loan Check"** in the top navigation.
-   - Search for an Indian location in the search bar (e.g., `Shirol` or `Baramati`).
-   - Notice the map viewport smoothly animate via `flyTo` and center the marker at the exact coordinates.
-   - Click **"Evaluate Risk & Hazard Exposure"** to trigger dual-mode assessment against live Open-Meteo forecasts and World Bank indices.
-4. **Register a New Enterprise:**
-   - In the dashboard, click **"Add New Customer"**.
-   - Switch to Tab 2 ("Location & GIS"), search a location, and verify coordinate population.
-   - Observe the live score preview adjust in real time as resilience attributes are modified.
-5. **Inspect the Twin Borrower Paradox:**
-   - Navigate to `/demo-twin` via the top navigation banner.
-   - Observe two synthetic borrowers with identical financials (₹5,00,000 loan, ₹65,000 revenue, 740 credit score).
-   - See how **Kaveri Agro** (Kolhapur flood plain) receives an advisory score of **28/100 (High Risk)** while **Sahyadri Bio-Farms** (Pune elevated tableland) receives **82/100 (Low Risk)** strictly due to environmental hazard exposure.
+- Scores are advisory and based on initial weights that are not yet calibrated on real loan-performance data.
+- Public hazard datasets have limited resolution and coverage, and forecasts can be wrong. Missing data is shown as unavailable, never as zero.
+- Demo data is synthetic and does not represent real borrowers.
+- The tool supports, and does not replace, a bank's own credit assessment.
 
----
+## Team
 
-## 12. Security Notes
+**HyperNode**: Fusion 2026, Problem Statement FIN-05 (International Finance Corporation).
 
-- **Git Exclusions:** The root `.gitignore` excludes all `.env*` files, local certificates, keys, debug logs, and Supabase local files.
-- **Client Key Security:** The `VITE_SUPABASE_ANON_KEY` is a client-safe key intended for browser operations. All database tables strictly enforce PostgreSQL Row-Level Security (RLS) policies based on the authenticated officer's institutional identity (`bank_name`).
-- **Secret Hygiene:** Never commit `SUPABASE_SERVICE_ROLE_KEY` or any private service token.
+## License
 
----
-
-## 13. Limitations & Disclaimers
-
-1. **Advisory Decision-Support Only:** OmniRisk does not underwrite, approve, or reject loan applications. Final lending decisions remain the sole responsibility of the bank credit committee.
-2. **Prototype Weighting Matrix:** Factor weights (30% Hazard, 25% Vulnerability, 25% Forecast, 20% Financial) are established based on institutional climate risk literature and actuarial peak-peril principles, but have not yet been backtested against proprietary historical bank default datasets.
-3. **Demonstration Dataset:** All borrower names, contact numbers, and enterprise profiles are purely synthetic.
-
----
-
-## 14. Project Metadata & Team
-
-- **Hackathon:** Smart India Hackathon 2026
-- **Problem Statement:** FIN-05
-- **Team Name:** HyperNode
-- **Product Name:** OmniRisk (Decision Support System for Banks)
-
----
-
-## 15. License
-
-Placeholder: Distributed under the MIT License for Smart India Hackathon 2026 demonstration. See `LICENSE` for details.
+`<!-- TODO: choose a license, e.g. MIT, or state "All rights reserved" -->`
