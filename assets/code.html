@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><title>OmniRisk</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100%;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "primary-container": "#102a43", "on-secondary": "#ffffff", "tertiary-container": "#002b46", "on-primary-fixed": "#011d35", "tertiary-fixed": "#cde5ff", "outline": "#74777e", "surface-dim": "#d8dadd", "on-error": "#ffffff", "on-secondary-fixed-variant": "#005049", "on-tertiary-fixed": "#001d32", "primary-fixed": "#d1e4ff", "primary-fixed-dim": "#b0c9e8", "surface-container-lowest": "#ffffff", "on-secondary-fixed": "#00201d", "on-secondary-container": "#006f66", "surface-container-highest": "#e0e3e6", "on-error-container": "#93000a", "on-primary-fixed-variant": "#314863", "error-container": "#ffdad6", "outline-variant": "#c3c6ce", "on-tertiary": "#ffffff", "inverse-on-surface": "#eff1f4", "surface-tint": "#49607c", "on-surface-variant": "#43474d", "tertiary-fixed-dim": "#94ccff", "primary": "#00152a", "secondary-container": "#86f2e4", "on-tertiary-container": "#4b95d0", "on-surface": "#191c1e", "secondary": "#006a61", "surface-container-high": "#e6e8eb", "inverse-primary": "#b0c9e8", "inverse-surface": "#2d3133", "secondary-fixed-dim": "#6bd8cb", "on-primary-container": "#7a92b0", "tertiary": "#001626", "on-primary": "#ffffff", "secondary-fixed": "#89f5e7", "surface-variant": "#e0e3e6", "error": "#ba1a1a", "surface-bright": "#f7f9fc", "background": "#f7f9fc", "surface-container-low": "#f2f4f7", "surface-container": "#eceef1", "surface": "#f7f9fc", "on-tertiary-fixed-variant": "#004b74", "on-background": "#191c1e" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "space-lg": "1.5rem", "margin-tablet": "1.5rem", "gutter": "1.5rem", "space-xl": "2.5rem", "space-sm": "0.5rem", "gutter-tablet": "1rem", "gutter-mobile": "0.75rem", "space-md": "1rem", "margin": "2rem", "space-xs": "0.25rem", "margin-mobile": "1rem" }, fontFamily: { "body-md": ["Inter"], "headline-md": ["Inter"], "numeric-metric": ["Inter"], "headline-xl": ["Inter"], "headline-sm": ["Inter"], "headline-xl-mobile": ["Inter"], "label-lg": ["Inter"], "numeric-table": ["Inter"], "headline-lg": ["Inter"], "label-sm": ["Inter"], "headline-lg-mobile": ["Inter"], "label-md": ["Inter"], "body-lg": ["Inter"], "body-sm": ["Inter"] }, fontSize: { "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }], "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "numeric-metric": ["32px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-xl": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.025em", "fontWeight": "700" }], "headline-sm": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "headline-xl-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }], "numeric-table": ["13px", { "lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "500" }], "headline-lg": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "600" }], "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "600" }], "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }], "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "400" }], "body-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.005em", "fontWeight": "400" }] } } } };</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased min-h-screen flex flex-col"><header class="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] pt-safe"><div class="h-16 px-margin-mobile flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-xs"><img alt="OmniRisk Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1WyX2zIiJnu_Nm9srW-Mb7EhqZK5OTF53U41METFC6kYiuk1P2lrSnf_yExu0HVN06WcQfb5tC_jdO8aC1mTF8lgMHIPddQ-EnJiOOD4os7EpuzGAY11ai6J-Xthlpn19FwXAX5CUoOFryT5vkRG21bYc8oyXN-W79b8HBAprtKmipKHy_mT775iQDP85syS-gzeQRaCnrEccGpF5MZDZa1zC6LD3lH63Gn9PHRpaMmNeoKiIbIlosFQOdz"/><div class="flex flex-col"><span class="font-label-md text-label-md text-primary font-bold tracking-tight">OmniRisk</span><span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Live Alerts</span></div></div><div class="flex items-center gap-space-xs"><div class="hidden xs:flex sm:flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-secondary-container/30 text-secondary font-label-sm text-label-sm"><span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span><span class="truncate max-w-[110px]">MH Live</span></div><button aria-label="Alerts" class="relative w-11 h-11 flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-2 right-2 flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-error opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-error"></span></span></button><div class="flex items-center"><img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-2 ring-primary-fixed" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBM41IXsNHOfDImFtYbtOH4ecmgBpIApkUtAle0ySict2xKPg1LZk7D-2zFJEdRKakQGUKJ5ENgPQz1LRJtVyJfwLNqMPvloa84-CuDXNjGrwhWHHWyVbMcU4cmJLwS28J3tOZ6KnnluVUm_dpyv0ZFF0iJW1wx2ieNKDlYcZBTXiohs4znOUnPMpWAjABbkOSi08uRoKrTkJMIxuVlnnEL8F9sHGNCPyQsICqNjTne8b5dLeV06eY2Ow"/></div></div></div></header><main class="flex-1 w-full bg-surface pt-16 pb-20"><div class="flex flex-col w-full">
+<!-- Status & Quick Controls Bar -->
+<div class="px-margin-mobile pt-space-md pb-space-sm flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="relative flex h-2.5 w-2.5">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-secondary"></span>
+</span>
+<span class="font-label-md text-label-md text-secondary font-semibold">ECMWF / IMD Synced</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">• Updated 4m ago</span>
+</div>
+<button class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-high text-primary hover:bg-surface-container-highest transition-all active:scale-95" id="refreshBtn">
+<span class="material-symbols-outlined text-[16px] transition-transform duration-500" id="refreshIcon">sync</span>
+<span class="font-label-sm text-label-sm">Refresh</span>
+</button>
+</div>
+<!-- Forecast Horizon Toggle -->
+<div class="flex items-center justify-between bg-surface-container-low p-1 rounded-xl">
+<button class="forecast-pill flex-1 py-1.5 text-center rounded-lg font-label-md text-label-md text-on-surface-variant transition-all hover:text-primary" onclick="setHorizon(this, '24h')">
+        24 Hours
+      </button>
+<button class="forecast-pill flex-1 py-1.5 text-center rounded-lg font-label-md text-label-md text-on-surface-variant transition-all hover:text-primary" onclick="setHorizon(this, '72h')">
+        72 Hours
+      </button>
+<button class="forecast-pill flex-1 py-1.5 text-center rounded-lg font-label-md text-label-md bg-surface-container-lowest text-secondary font-bold shadow-sm transition-all" onclick="setHorizon(this, '7d')">
+        7 Days
+      </button>
+</div>
+</div>
+<!-- Primary Metric Strip (Horizontal scroll on compact viewport) -->
+<div class="px-margin-mobile py-space-xs">
+<div class="grid grid-cols-3 gap-space-xs">
+<!-- Metric 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-space-sm flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Alerts</span>
+<span class="material-symbols-outlined text-error text-[18px]">warning</span>
+</div>
+<div class="mt-2">
+<div class="flex items-baseline gap-1">
+<span class="font-headline-md text-headline-md text-primary font-bold">3</span>
+<span class="font-label-sm text-label-sm text-error font-semibold">Active</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate mt-0.5">High severity 1</p>
+</div>
+</div>
+<!-- Metric 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-space-sm flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">At Risk</span>
+<span class="material-symbols-outlined text-secondary text-[18px]">domain_disabled</span>
+</div>
+<div class="mt-2">
+<div class="flex items-baseline">
+<span class="font-headline-md text-headline-md text-primary font-bold">44</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant ml-1">Accts</span>
+</div>
+<p class="font-label-sm text-label-sm text-secondary font-semibold mt-0.5">₹8.40 Cr</p>
+</div>
+</div>
+<!-- Metric 3 -->
+<div class="bg-surface-container-lowest rounded-xl p-space-sm flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Shift</span>
+<span class="material-symbols-outlined text-error text-[18px]">trending_down</span>
+</div>
+<div class="mt-2">
+<div class="flex items-baseline text-error">
+<span class="font-headline-md text-headline-md font-bold">-14</span>
+<span class="font-label-sm text-label-sm ml-0.5">pts</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate mt-0.5">Avg shock window</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Live Simulated Alert Notice -->
+<div class="px-margin-mobile py-space-xs">
+<div class="bg-secondary-container/20 rounded-lg px-3 py-2 flex items-center justify-between gap-2">
+<div class="flex items-center gap-2 min-w-0">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0">sensors</span>
+<p class="font-body-sm text-body-sm text-on-secondary-container truncate">
+          Live simulated alert engine (Designed for IMD / ECMWF API integration)
+        </p>
+</div>
+<span class="shrink-0 font-label-sm text-label-sm bg-surface-container-lowest text-secondary px-2 py-0.5 rounded-full font-semibold">Stage 2</span>
+</div>
+</div>
+<!-- Critical Severe Weather Alerts Feed -->
+<div class="px-margin-mobile pt-space-sm pb-space-md flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-sm text-headline-sm text-primary font-bold">District Climate Feed</h2>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Prioritized by INR Exposure</span>
+</div>
+<!-- Alert Card 1: Kolhapur & Sangli (High Risk) -->
+<div class="bg-surface-container-lowest rounded-2xl p-space-md shadow-sm relative overflow-hidden flex flex-col gap-space-sm">
+<div class="absolute top-0 left-0 right-0 h-1 bg-error"></div>
+<!-- Card Header -->
+<div class="flex items-start justify-between gap-2 pt-1">
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5 flex-wrap">
+<span class="bg-error-container text-on-error-container font-label-sm text-label-sm px-2 py-0.5 rounded-full uppercase tracking-wider font-bold">
+              High Alert
+            </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Panchganga &amp; Krishna Basins</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary font-bold mt-1">Kolhapur &amp; Sangli Districts</h3>
+</div>
+<div class="text-right shrink-0">
+<span class="font-numeric-metric text-[22px] text-primary font-bold leading-none">₹3.80 Cr</span>
+<span class="block font-label-sm text-label-sm text-on-surface-variant">At-risk Exposure</span>
+</div>
+</div>
+<!-- Weather Hazard Highlight -->
+<div class="bg-surface-container-low rounded-xl p-3 flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-lg bg-surface-container-highest flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">water_drop</span>
+</div>
+<div>
+<div class="font-label-md text-label-md text-primary font-bold">160–210 mm Precipitation</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">River cresting expected in 36-48h</div>
+</div>
+</div>
+<span class="font-label-sm text-label-sm bg-error/10 text-error px-2 py-1 rounded-md font-semibold">18 Borrowers</span>
+</div>
+<!-- Vulnerable Sectors Split -->
+<div class="flex items-center gap-2 flex-wrap text-on-surface-variant">
+<span class="font-label-sm text-label-sm font-semibold text-primary">Vulnerable Sectors:</span>
+<span class="font-label-sm text-label-sm bg-surface-container-high px-2 py-0.5 rounded-md text-primary">Agriculture (11)</span>
+<span class="font-label-sm text-label-sm bg-surface-container-high px-2 py-0.5 rounded-md text-primary">Riverside Retail (5)</span>
+<span class="font-label-sm text-label-sm bg-surface-container-high px-2 py-0.5 rounded-md text-primary">Warehousing (2)</span>
+</div>
+<!-- Dynamic Score Impact Preview -->
+<div class="bg-surface-container-low rounded-xl p-3 flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-bold uppercase tracking-wider">Dynamic Score Shock Impact</span>
+<span class="font-label-sm text-label-sm text-error font-medium">Simulated Shift</span>
+</div>
+<div class="flex items-center justify-between text-body-sm py-1 bg-surface-container-lowest px-2.5 rounded-lg">
+<span class="font-label-md text-label-md text-primary font-medium truncate max-w-[140px]">GreenHarvest Agro Ltd</span>
+<div class="flex items-center gap-2">
+<span class="font-body-sm text-body-sm text-on-surface-variant line-through">64</span>
+<span class="material-symbols-outlined text-[14px] text-error">arrow_forward</span>
+<span class="font-label-md text-label-md text-error font-bold">58</span>
+<span class="font-label-sm text-label-sm bg-error-container text-on-error-container px-1.5 py-0.5 rounded">-6 pts</span>
+</div>
+</div>
+<div class="flex items-center justify-between text-body-sm py-1 bg-surface-container-lowest px-2.5 rounded-lg">
+<span class="font-label-md text-label-md text-primary font-medium truncate max-w-[140px]">Sangli Riverside Traders</span>
+<div class="flex items-center gap-2">
+<span class="font-body-sm text-body-sm text-on-surface-variant line-through">46</span>
+<span class="material-symbols-outlined text-[14px] text-error">arrow_forward</span>
+<span class="font-label-md text-label-md text-error font-bold">34</span>
+<span class="font-label-sm text-label-sm bg-error-container text-on-error-container px-1.5 py-0.5 rounded">-12 pts</span>
+</div>
+</div>
+</div>
+<!-- Recommended Interventions Pill Strip -->
+<div class="bg-surface-container rounded-xl p-3 flex flex-col gap-2">
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+<span class="font-label-sm text-label-sm font-bold uppercase tracking-wide">Credit Officer Protocol Recommendations</span>
+</div>
+<ul class="flex flex-col gap-1.5">
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-secondary text-[16px] mt-0.5 shrink-0">send</span>
+<span class="font-body-sm text-body-sm text-on-surface">Trigger SMS flood preparedness notification to 18 key contact points.</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-secondary text-[16px] mt-0.5 shrink-0">pause_circle</span>
+<span class="font-body-sm text-body-sm text-on-surface">Temporarily freeze automated repayment penalty triggers for 7 days during storm window.</span>
+</li>
+</ul>
+</div>
+<!-- Card Action Trigger -->
+<div class="pt-1 flex items-center justify-between gap-2">
+<button class="flex-1 bg-secondary text-on-secondary font-label-lg text-label-lg py-2.5 px-3 rounded-lg text-center font-bold shadow-sm active:scale-[0.98] transition-transform" onclick="applyIntervention(this)">
+          Execute Protocol Actions
+        </button>
+<button class="w-11 h-11 bg-surface-container-high rounded-lg flex items-center justify-center text-primary hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined text-[20px]">share</span>
+</button>
+</div>
+</div>
+<!-- Alert Card 2: Nagpur District (Moderate Risk - Heatwave) -->
+<div class="bg-surface-container-lowest rounded-2xl p-space-md shadow-sm relative overflow-hidden flex flex-col gap-space-sm">
+<div class="absolute top-0 left-0 right-0 h-1 bg-amber-500"></div>
+<div class="flex items-start justify-between gap-2 pt-1">
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5 flex-wrap">
+<span class="bg-amber-100 text-amber-900 font-label-sm text-label-sm px-2 py-0.5 rounded-full uppercase tracking-wider font-bold">
+              Moderate Alert
+            </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Vidarbha Industrial Belt</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary font-bold mt-1">Nagpur District — Heatwave Stage 2</h3>
+</div>
+<div class="text-right shrink-0">
+<span class="font-numeric-metric text-[22px] text-primary font-bold leading-none">₹2.65 Cr</span>
+<span class="block font-label-sm text-label-sm text-on-surface-variant">At-risk Exposure</span>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-xl p-3 flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-lg bg-surface-container-highest flex items-center justify-center text-amber-600">
+<span class="material-symbols-outlined text-[20px]">thermostat</span>
+</div>
+<div>
+<div class="font-label-md text-label-md text-primary font-bold">Peak Temp &gt; 44.5°C</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">4-day persistent thermal anomaly</div>
+</div>
+</div>
+<span class="font-label-sm text-label-sm bg-amber-100 text-amber-900 px-2 py-1 rounded-md font-semibold">14 Borrowers</span>
+</div>
+<div class="flex items-center gap-2 flex-wrap">
+<span class="font-label-sm text-label-sm font-semibold text-primary">Sectors:</span>
+<span class="font-label-sm text-label-sm bg-surface-container-high px-2 py-0.5 rounded-md text-primary">Cold Storage (6)</span>
+<span class="font-label-sm text-label-sm bg-surface-container-high px-2 py-0.5 rounded-md text-primary">Agro-Processing (5)</span>
+<span class="font-label-sm text-label-sm bg-surface-container-high px-2 py-0.5 rounded-md text-primary">Poultry / Dairy (3)</span>
+</div>
+<div class="bg-surface-container rounded-xl p-2.5 flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0">lightbulb</span>
+<p class="font-body-sm text-body-sm">
+<strong>Recommended Action:</strong> Verify power backup fuel logs &amp; ensure ventilation compliance in cold-chains.
+        </p>
+</div>
+</div>
+<!-- Alert Card 3: Marathwada (Moderate Risk - Soil Moisture) -->
+<div class="bg-surface-container-lowest rounded-2xl p-space-md shadow-sm relative overflow-hidden flex flex-col gap-space-sm">
+<div class="absolute top-0 left-0 right-0 h-1 bg-amber-500"></div>
+<div class="flex items-start justify-between gap-2 pt-1">
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5 flex-wrap">
+<span class="bg-amber-100 text-amber-900 font-label-sm text-label-sm px-2 py-0.5 rounded-full uppercase tracking-wider font-bold">
+              Moderate Alert
+            </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Beed, Jalna &amp; Latur</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary font-bold mt-1">Marathwada Region — Moisture Deficit</h3>
+</div>
+<div class="text-right shrink-0">
+<span class="font-numeric-metric text-[22px] text-primary font-bold leading-none">₹1.95 Cr</span>
+<span class="block font-label-sm text-label-sm text-on-surface-variant">At-risk Exposure</span>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-xl p-3 flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-lg bg-surface-container-highest flex items-center justify-center text-amber-600">
+<span class="material-symbols-outlined text-[20px]">grass</span>
+</div>
+<div>
+<div class="font-label-md text-label-md text-primary font-bold">Root-zone Deficit (-32%)</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Dry spell extending beyond 18 days</div>
+</div>
+</div>
+<span class="font-label-sm text-label-sm bg-amber-100 text-amber-900 px-2 py-1 rounded-md font-semibold">12 Borrowers</span>
+</div>
+<div class="flex items-center justify-between text-body-sm">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Dryland Pulses &amp; Oilseed Accounts</span>
+<button class="font-label-sm text-label-sm text-secondary font-bold hover:underline flex items-center gap-0.5">
+          View Micro-Irrigation Status
+          <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Search & Portfolio Filter Section -->
+<div class="px-margin-mobile pt-space-xs pb-space-lg flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-sm text-headline-sm text-primary font-bold">Impacted Borrowers</h2>
+<span class="font-label-sm text-label-sm text-secondary font-bold">44 Listed</span>
+</div>
+<!-- Search Input -->
+<div class="relative w-full">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant absolute left-3 top-1/2 -translate-y-1/2">search</span>
+<input class="w-full h-10 pl-9 pr-3 rounded-lg bg-surface-container-lowest text-primary font-body-md text-body-md shadow-sm placeholder:text-on-surface-variant focus:outline-none focus:ring-2 focus:ring-secondary" id="businessSearch" onkeyup="filterBorrowers()" placeholder="Search account name, GSTIN, or district..." type="text"/>
+</div>
+<!-- Quick Pill Filters -->
+<div class="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
+<button class="filter-pill shrink-0 px-3 py-1 rounded-full bg-primary text-on-primary font-label-sm text-label-sm font-semibold" data-filter="all" onclick="applyTagFilter(this, 'all')">
+        All (44)
+      </button>
+<button class="filter-pill shrink-0 px-3 py-1 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm" data-filter="high" onclick="applyTagFilter(this, 'high')">
+        High Severity (18)
+      </button>
+<button class="filter-pill shrink-0 px-3 py-1 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm" data-filter="kolhapur" onclick="applyTagFilter(this, 'kolhapur')">
+        Kolhapur / Sangli
+      </button>
+<button class="filter-pill shrink-0 px-3 py-1 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm" data-filter="nagpur" onclick="applyTagFilter(this, 'nagpur')">
+        Nagpur Belt
+      </button>
+</div>
+<!-- Affected Borrowers Dynamic List -->
+<div class="flex flex-col gap-2 mt-1" id="borrowerList">
+<!-- Item 1 -->
+<div class="borrower-card bg-surface-container-lowest p-3 rounded-xl shadow-sm flex items-center justify-between gap-2" data-district="kolhapur" data-name="greenharvest agro" data-severity="high">
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-label-md text-label-md text-primary font-bold truncate">GreenHarvest Agro Ltd</span>
+<span class="w-1.5 h-1.5 rounded-full bg-error shrink-0"></span>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant truncate">Kolhapur • Cane Cultivation &amp; Sugar Mills</div>
+<div class="flex items-center gap-2 mt-1 font-label-sm text-label-sm">
+<span class="text-primary font-semibold">₹85.00 L</span>
+<span class="text-error bg-error-container/40 px-1.5 py-0.2 rounded font-medium">Risk Score: 58 (-6)</span>
+</div>
+</div>
+<button class="shrink-0 px-3 py-2 rounded-lg bg-surface-container-high text-primary hover:bg-secondary-container hover:text-on-secondary-container transition-colors font-label-sm text-label-sm font-semibold" onclick="reviewAccount('GreenHarvest Agro Ltd', '₹85.00 L', 'Severe Flood Inundation (185mm)')">
+          Review
+        </button>
+</div>
+<!-- Item 2 -->
+<div class="borrower-card bg-surface-container-lowest p-3 rounded-xl shadow-sm flex items-center justify-between gap-2" data-district="kolhapur" data-name="sangli riverside traders" data-severity="high">
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-label-md text-label-md text-primary font-bold truncate">Sangli Riverside Traders</span>
+<span class="w-1.5 h-1.5 rounded-full bg-error shrink-0"></span>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant truncate">Sangli • Retail Grains &amp; Turmeric Hub</div>
+<div class="flex items-center gap-2 mt-1 font-label-sm text-label-sm">
+<span class="text-primary font-semibold">₹1.20 Cr</span>
+<span class="text-error bg-error-container/40 px-1.5 py-0.2 rounded font-medium">Risk Score: 34 (-12)</span>
+</div>
+</div>
+<button class="shrink-0 px-3 py-2 rounded-lg bg-surface-container-high text-primary hover:bg-secondary-container hover:text-on-secondary-container transition-colors font-label-sm text-label-sm font-semibold" onclick="reviewAccount('Sangli Riverside Traders', '₹1.20 Cr', 'River Krishna Flash Crest Alert')">
+          Review
+        </button>
+</div>
+<!-- Item 3 -->
+<div class="borrower-card bg-surface-container-lowest p-3 rounded-xl shadow-sm flex items-center justify-between gap-2" data-district="nagpur" data-name="vidarbha coldchain pvt" data-severity="moderate">
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-label-md text-label-md text-primary font-bold truncate">Vidarbha ColdChain Logistics</span>
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0"></span>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant truncate">Nagpur • Orange &amp; Dairy Storage Unit 4</div>
+<div class="flex items-center gap-2 mt-1 font-label-sm text-label-sm">
+<span class="text-primary font-semibold">₹62.50 L</span>
+<span class="text-amber-800 bg-amber-100 px-1.5 py-0.2 rounded font-medium">Risk Score: 61 (-4)</span>
+</div>
+</div>
+<button class="shrink-0 px-3 py-2 rounded-lg bg-surface-container-high text-primary hover:bg-secondary-container hover:text-on-secondary-container transition-colors font-label-sm text-label-sm font-semibold" onclick="reviewAccount('Vidarbha ColdChain Logistics', '₹62.50 L', 'Heatwave Peak Temp 44.8°C')">
+          Review
+        </button>
+</div>
+<!-- Item 4 -->
+<div class="borrower-card bg-surface-container-lowest p-3 rounded-xl shadow-sm flex items-center justify-between gap-2" data-district="marathwada" data-name="latur soybean mills" data-severity="moderate">
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-label-md text-label-md text-primary font-bold truncate">Latur Agro Solvent Extracts</span>
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0"></span>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant truncate">Latur • Oilseed Processing &amp; Storage</div>
+<div class="flex items-center gap-2 mt-1 font-label-sm text-label-sm">
+<span class="text-primary font-semibold">₹94.00 L</span>
+<span class="text-amber-800 bg-amber-100 px-1.5 py-0.2 rounded font-medium">Risk Score: 52 (-5)</span>
+</div>
+</div>
+<button class="shrink-0 px-3 py-2 rounded-lg bg-surface-container-high text-primary hover:bg-secondary-container hover:text-on-secondary-container transition-colors font-label-sm text-label-sm font-semibold" onclick="reviewAccount('Latur Agro Solvent Extracts', '₹94.00 L', 'Severe Root-zone Soil Moisture Deficit')">
+          Review
+        </button>
+</div>
+</div>
+</div>
+<!-- Interactive Action Confirmation Toast/Modal Overlay -->
+<div class="fixed inset-0 z-50 bg-primary/40 backdrop-blur-sm hidden items-center justify-center p-4" id="actionModal">
+<div class="bg-surface-container-lowest rounded-2xl p-space-md max-w-sm w-full shadow-2xl flex flex-col gap-space-sm animate-scaleUp">
+<div class="flex items-center justify-between">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined text-[24px]">verified</span>
+</div>
+<button class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant" onclick="closeModal()">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-primary font-bold" id="modalTitle">Protocol Executed</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1" id="modalDesc">
+          Automated disaster mitigation triggers dispatched for Kolhapur &amp; Sangli borrower portfolio.
+        </p>
+</div>
+<div class="bg-surface-container-low rounded-xl p-3 flex flex-col gap-1.5">
+<div class="flex items-center justify-between font-label-sm text-label-sm">
+<span class="text-on-surface-variant">Audit Event Log:</span>
+<span class="text-primary font-semibold">#CR-ALRT-8924</span>
+</div>
+<div class="flex items-center justify-between font-label-sm text-label-sm">
+<span class="text-on-surface-variant">Borrowers Impacted:</span>
+<span class="text-secondary font-bold" id="modalCount">18 Accounts</span>
+</div>
+<div class="flex items-center justify-between font-label-sm text-label-sm">
+<span class="text-on-surface-variant">Repayment Penalty:</span>
+<span class="text-secondary font-bold">Frozen for 7 Days</span>
+</div>
+</div>
+<button class="w-full py-2.5 bg-primary text-on-primary rounded-xl font-label-lg text-label-lg font-bold text-center mt-1 active:scale-95 transition-transform" onclick="closeModal()">
+        Acknowledge &amp; Close
+      </button>
+</div>
+</div>
+<script>
+    // Forecast horizon switcher
+    function setHorizon(el, horizon) {
+      document.querySelectorAll('.forecast-pill').forEach(btn => {
+        btn.classList.remove('bg-surface-container-lowest', 'text-secondary', 'font-bold', 'shadow-sm');
+        btn.classList.add('text-on-surface-variant');
+      });
+      el.classList.add('bg-surface-container-lowest', 'text-secondary', 'font-bold', 'shadow-sm');
+      el.classList.remove('text-on-surface-variant');
+    }
+
+    // Refresh micro-interaction
+    const refreshBtn = document.getElementById('refreshBtn');
+    const refreshIcon = document.getElementById('refreshIcon');
+    if (refreshBtn && refreshIcon) {
+      refreshBtn.addEventListener('click', () => {
+        refreshIcon.classList.add('rotate-180');
+        setTimeout(() => {
+          refreshIcon.classList.remove('rotate-180');
+        }, 500);
+      });
+    }
+
+    // Protocol intervention execution modal
+    function applyIntervention(btn) {
+      const modal = document.getElementById('actionModal');
+      document.getElementById('modalTitle').innerText = 'Interventions Dispatched';
+      document.getElementById('modalDesc').innerText = 'Emergency alert dispatch sent via SMS gateway. Loan penalty engine adjusted for 18 Sangli & Kolhapur commercial accounts.';
+      document.getElementById('modalCount').innerText = '18 Accounts (₹3.8 Cr)';
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function reviewAccount(name, exposure, hazard) {
+      const modal = document.getElementById('actionModal');
+      document.getElementById('modalTitle').innerText = name;
+      document.getElementById('modalDesc').innerText = `Direct dossier inspection for ${name}. Physical hazard: ${hazard}. At-risk exposure: ${exposure}.`;
+      document.getElementById('modalCount').innerText = exposure;
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('actionModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    // Search and filter logic
+    function filterBorrowers() {
+      const query = document.getElementById('businessSearch').value.toLowerCase();
+      const cards = document.querySelectorAll('.borrower-card');
+      
+      cards.forEach(card => {
+        const text = card.getAttribute('data-name').toLowerCase() + ' ' + card.innerText.toLowerCase();
+        if (text.includes(query)) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    }
+
+    function applyTagFilter(btn, filter) {
+      document.querySelectorAll('.filter-pill').forEach(b => {
+        b.classList.remove('bg-primary', 'text-on-primary', 'font-semibold');
+        b.classList.add('bg-surface-container-high', 'text-on-surface-variant');
+      });
+      btn.classList.add('bg-primary', 'text-on-primary', 'font-semibold');
+      btn.classList.remove('bg-surface-container-high', 'text-on-surface-variant');
+
+      const cards = document.querySelectorAll('.borrower-card');
+      cards.forEach(card => {
+        if (filter === 'all') {
+          card.classList.remove('hidden');
+        } else if (filter === 'high') {
+          card.getAttribute('data-severity') === 'high' ? card.classList.remove('hidden') : card.classList.add('hidden');
+        } else {
+          card.getAttribute('data-district') === filter ? card.classList.remove('hidden') : card.classList.add('hidden');
+        }
+      });
+    }
+  </script>
+</div></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-2px_12px_rgba(16,42,67,0.06)]" data-active-classes="text-secondary font-semibold"><div class="h-16 px-gutter-mobile flex items-center justify-around"><a class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] text-on-surface-variant transition-colors" data-path="overview" href="#"><span class="material-symbols-outlined text-[22px]">dashboard</span><span class="font-label-sm text-label-sm mt-0.5">Overview</span></a><a class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] text-on-surface-variant transition-colors" data-path="compare-exposure" href="#"><span class="material-symbols-outlined text-[22px]">compare_arrows</span><span class="font-label-sm text-label-sm mt-0.5">Compare</span></a><a class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] text-on-surface-variant transition-colors" data-path="risk-assessment" href="#"><span class="material-symbols-outlined text-[22px]">speed</span><span class="font-label-sm text-label-sm mt-0.5">Risk Detail</span></a><a aria-current="page" class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] transition-colors relative text-secondary font-semibold" data-path="live-alerts" href="#"><span class="material-symbols-outlined text-[22px]">radar</span><span class="font-label-sm text-label-sm mt-0.5">Live Alerts</span></a><a class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] text-on-surface-variant transition-colors" data-path="portfolio-analytics" href="#"><span class="material-symbols-outlined text-[22px]">query_stats</span><span class="font-label-sm text-label-sm mt-0.5">Portfolio</span></a></div></nav></body></html>

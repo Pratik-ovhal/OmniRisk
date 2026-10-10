@@ -1,0 +1,184 @@
+# =====================================================================
+# OmniRisk .gitignore
+# Goal: never commit environment variables, API keys or confidential data.
+# Safe-to-commit template: .env.example (variable NAMES only, no values)
+# =====================================================================
+
+# ---------------------------------------------------------------------
+# 1. ENVIRONMENT VARIABLES (all variants)
+# ---------------------------------------------------------------------
+.env
+.env.*
+*.env
+.envrc
+env.local
+.dev.vars
+# Keep the template files so teammates know which variables are needed
+!.env.example
+!.env.sample
+!.env.template
+!*.env.example
+
+# ---------------------------------------------------------------------
+# 2. API KEYS, TOKENS, CERTIFICATES, CREDENTIALS
+# ---------------------------------------------------------------------
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+*.der
+*.jks
+*.keystore
+id_rsa
+id_rsa.pub
+id_ed25519
+id_ed25519.pub
+*.gpg
+*.asc
+
+# Cloud / service account files
+service-account*.json
+serviceAccount*.json
+*-credentials.json
+credentials.json
+client_secret*.json
+google-services.json
+GoogleService-Info.plist
+firebase-adminsdk*.json
+.aws/
+.azure/
+.gcloud/
+.netrc
+.npmrc
+.pypirc
+.htpasswd
+auth.json
+token.json
+tokens.json
+
+# Any folder or file explicitly named as secret/private
+secret/
+secrets/
+.secret/
+.secrets/
+*.secret
+*.secrets
+*secret*.json
+*secret*.yml
+*secret*.yaml
+private/
+confidential/
+
+# ---------------------------------------------------------------------
+# 3. SUPABASE (local CLI state and secrets; migrations are committed)
+# ---------------------------------------------------------------------
+.supabase/
+supabase/.temp/
+supabase/.branches/
+supabase/.env
+supabase/.env.*
+supabase/functions/.env
+supabase/functions/.env.*
+supabase/seed.private.sql
+
+# ---------------------------------------------------------------------
+# 4. REAL / CONFIDENTIAL DATA (demo data must be synthetic only)
+# ---------------------------------------------------------------------
+data/private/
+data/raw/
+data/real/
+data/confidential/
+*.dump
+*.bak
+*.backup
+*.sqlite
+*.sqlite3
+*.db
+db.json
+
+# ---------------------------------------------------------------------
+# 5. NODE / JAVASCRIPT / TYPESCRIPT
+# ---------------------------------------------------------------------
+node_modules/
+.pnp
+.pnp.js
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.yarn/cache
+.yarn/install-state.gz
+dist/
+build/
+out/
+.next/
+.nuxt/
+.output/
+.svelte-kit/
+.vite/
+.cache/
+.parcel-cache/
+.turbo/
+.vercel/
+.netlify/
+coverage/
+*.tsbuildinfo
+
+# ---------------------------------------------------------------------
+# 6. PYTHON
+# ---------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+ENV/
+.Python
+pip-log.txt
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+.coverage
+htmlcov/
+*.egg-info/
+.eggs/
+
+# ---------------------------------------------------------------------
+# 7. LOGS, TEMP FILES, OS FILES
+# ---------------------------------------------------------------------
+logs/
+*.log
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---------------------------------------------------------------------
+# 8. EDITORS / IDEs (share only what the team agrees on)
+# ---------------------------------------------------------------------
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+*.code-workspace
+
+# ---------------------------------------------------------------------
+# 9. DEPLOYMENT CLI STATE
+# ---------------------------------------------------------------------
+.vercel
+.netlify
+.railway/
+.render/
+.fly/
+
+# ---------------------------------------------------------------------
+# NOTE: PLAN.md and the assets/ folder are intentionally NOT ignored.
+# ---------------------------------------------------------------------

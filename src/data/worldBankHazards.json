@@ -1,0 +1,122 @@
+[
+  {
+    "district": "Kolhapur",
+    "state": "Maharashtra",
+    "country": "India",
+    "latitude": 16.7050,
+    "longitude": 74.2433,
+    "flood_hazard_index": 0.88,
+    "drought_hazard_index": 0.18,
+    "heat_stress_index": 0.35,
+    "cyclone_storm_index": 0.22,
+    "description": "Panchganga river basin, severe historical monsoon flooding exposure."
+  },
+  {
+    "district": "Solapur",
+    "state": "Maharashtra",
+    "country": "India",
+    "latitude": 17.6599,
+    "longitude": 75.9064,
+    "flood_hazard_index": 0.15,
+    "drought_hazard_index": 0.82,
+    "heat_stress_index": 0.78,
+    "cyclone_storm_index": 0.10,
+    "description": "Rain-shadow semi-arid zone, recurrent agricultural drought and groundwater depletion."
+  },
+  {
+    "district": "Raigad",
+    "state": "Maharashtra",
+    "country": "India",
+    "latitude": 18.5158,
+    "longitude": 73.1822,
+    "flood_hazard_index": 0.84,
+    "drought_hazard_index": 0.12,
+    "heat_stress_index": 0.40,
+    "cyclone_storm_index": 0.72,
+    "description": "Konkan coastal belt, exposed to Arabian Sea cyclones and flash inundation."
+  },
+  {
+    "district": "Nashik",
+    "state": "Maharashtra",
+    "country": "India",
+    "latitude": 19.9975,
+    "longitude": 73.7898,
+    "flood_hazard_index": 0.32,
+    "drought_hazard_index": 0.38,
+    "heat_stress_index": 0.42,
+    "cyclone_storm_index": 0.15,
+    "description": "Agro-industrial and horticultural belt with moderate balanced climate risk."
+  },
+  {
+    "district": "Pune",
+    "state": "Maharashtra",
+    "country": "India",
+    "latitude": 18.5204,
+    "longitude": 73.8567,
+    "flood_hazard_index": 0.35,
+    "drought_hazard_index": 0.30,
+    "heat_stress_index": 0.38,
+    "cyclone_storm_index": 0.12,
+    "description": "Well-diversified district with balanced climate resilience infrastructure."
+  },
+  {
+    "district": "Nagpur",
+    "state": "Maharashtra",
+    "country": "India",
+    "latitude": 21.1458,
+    "longitude": 79.0882,
+    "flood_hazard_index": 0.22,
+    "drought_hazard_index": 0.55,
+    "heat_stress_index": 0.90,
+    "cyclone_storm_index": 0.15,
+    "description": "Vidarbha citrus and cotton belt, extreme summer heatwaves exceeding 46°C."
+  },
+  {
+    "district": "Anantapur",
+    "state": "Andhra Pradesh",
+    "country": "India",
+    "latitude": 14.6819,
+    "longitude": 77.6006,
+    "flood_hazard_index": 0.10,
+    "drought_hazard_index": 0.89,
+    "heat_stress_index": 0.81,
+    "cyclone_storm_index": 0.18,
+    "description": "Hyper rain-deficit arid tract with frequent dry spells affecting groundnut."
+  },
+  {
+    "district": "Alappuzha",
+    "state": "Kerala",
+    "country": "India",
+    "latitude": 9.4981,
+    "longitude": 76.3388,
+    "flood_hazard_index": 0.92,
+    "drought_hazard_index": 0.08,
+    "heat_stress_index": 0.28,
+    "cyclone_storm_index": 0.65,
+    "description": "Kuttanad below-sea-level paddy terrain, severe backwater surge and flood exposure."
+  },
+  {
+    "district": "Patna",
+    "state": "Bihar",
+    "country": "India",
+    "latitude": 25.5941,
+    "longitude": 85.1376,
+    "flood_hazard_index": 0.85,
+    "drought_hazard_index": 0.25,
+    "heat_stress_index": 0.72,
+    "cyclone_storm_index": 0.20,
+    "description": "Ganga confluence basin, seasonal riverine flooding and heat stress."
+  },
+  {
+    "district": "Coimbatore",
+    "state": "Tamil Nadu",
+    "country": "India",
+    "latitude": 11.0168,
+    "longitude": 76.9558,
+    "flood_hazard_index": 0.20,
+    "drought_hazard_index": 0.40,
+    "heat_stress_index": 0.35,
+    "cyclone_storm_index": 0.20,
+    "description": "Resilient textile and engineering MSME hub with stable microclimate."
+  }
+]

@@ -1,0 +1,63 @@
+# Dependency directories
+node_modules/
+.pnp/
+.pnp.js
+
+# Build and production output
+dist/
+dist-ssr/
+build/
+*.tsbuildinfo
+
+# Logs and debug output
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Environment and secrets (NEVER commit real credentials)
+.env
+.env.*
+*.local
+*.secret
+secrets/
+credentials.json
+*.pem
+*.key
+*.cert
+*.crt
+*.pfx
+*.p12
+
+# Explicit exception: allow environment template
+!.env.example
+
+# Supabase local environment state
+.supabase/
+supabase/.temp/
+supabase/.branches/
+
+# Editor and IDE configurations
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS metadata
+.DS_Store
+Thumbs.db
+ehthumbs.db
+.Spotlight-V100
+.Trashes
+
+# Explicitly ensure core documentation and assets are never ignored
+!PLAN.md
+!assets/**
+!assests/**
